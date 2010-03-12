@@ -124,7 +124,9 @@ $.fn.ajaxSubmit = function(options) {
 	if (!options.dataType && options.target) {
 		var oldSuccess = options.success || function(){};
 		callbacks.push(function(data) {
-			$(options.target).html(data).each(oldSuccess, arguments);
+      // if replaceTarget is set to true, use replaceWith() instead of html()
+      var manipulationFn = (options.replaceTarget ? 'replaceWith' : 'html');
+			$(options.target)[manipulationFn](data).each(oldSuccess, arguments);
 		});
 	}
 	else if (options.success)
